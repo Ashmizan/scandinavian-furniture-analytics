@@ -124,6 +124,85 @@ JOIN customers
 GROUP BY customers.country
 ORDER BY total_orders DESC;
 
-SELECT SUM(quantity) AS
-total_furniture_pieces
+16. How many furniture pieces were purchased in total?
+SELECT furniture.name,
+      SUM(orders.quantity) AS total_quantity_purchased
+FROM orders
+JOIN furniture
+ON orders.furniture_id = furniture.id
+GROUP BY furniture.name
+ORDER BY total_quantity_purchased DESC;
+
+17. What is the total number of orders? Give the result 
+    the name total_orders.
+SELECT
+COUNT(*) AS total_orders
 FROM orders;
+
+18. What is the total quantity of furniture sold?
+SELECT 
+SUM(orders.quantity) AS total_items_sold
+FROM orders;
+
+19.Calculate the average furniture price and call the result average_price.
+SELECT 
+      AVG(price) AS average_price
+FROM furniture;
+
+20. Find the highest furniture price and call the result highest_price.
+SELECT 
+      MAX(price) AS highest_price
+FROM furniture;
+
+21. Find the lowest furniture price and call the result lowest_price.
+SELECT 
+      MIN(price) AS lowest_price
+FROM furniture;
+
+22. Which furniture category has the highest total quantity sold? Show the
+category and call the calculated column total_units_sold.
+SELECT furniture.category,
+   SUM(orders.quantity) AS total_units_sold
+FROM orders
+JOIN furniture
+ON orders.furniture_id = furniture.id
+GROUP BY furniture.category
+ORDER BY total_units_sold DESC;
+
+23. Which furniture category has the highest average product price? Show the
+category and call the calculated column average_price.
+SELECT category,
+   AVG(price) AS average_price
+FROM furniture
+GROUP BY category
+ORDER BY average_price DESC;
+
+24. Which furniture product has been ordered in the largest total quantity?
+Show the product name and call the calculated column total_units_sold.
+SELECT furniture.name,
+   SUM(orders.quantity) AS total_units_sold
+FROM orders
+JOIN furniture
+ON orders.furniture_id = furniture.id
+GROUP BY furniture.name
+ORDER BY total_units_sold DESC;
+
+25. Which country has generated the most orders? Show the country and call the calculated
+column total_orders.
+SELECT customers.country,
+    COUNT(*) AS total_orders
+FROM orders
+JOIN customers
+ON orders.customer_id = customers.customer_id
+GROUP BY customers.country
+ORDER BY total_orders DESC;
+26. Which furniture category has the highest total sales value, assuming:
+sales value = price x quantity
+SELECT furniture.category,
+     SUM(furniture.price*
+	 orders.quantity) AS total_sales
+FROM orders
+JOIN furniture
+ON orders.furniture_id= furniture.id
+GROUP BY furniture.category
+ORDER BY total_sales DESC;
