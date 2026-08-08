@@ -123,3 +123,7 @@ JOIN customers
     ON orders.customer_id = customers.customer_id
 GROUP BY customers.country
 ORDER BY total_orders DESC;
+
+SELECT SUM(quantity) AS
+total_furniture_pieces
+FROM orders;
