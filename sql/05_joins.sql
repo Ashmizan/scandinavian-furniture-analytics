@@ -93,3 +93,12 @@ JOIN customers
 ON orders.customer_id = customers.customer_id
 JOIN furniture
 ON orders.furniture_id = furniture.id;
+
+11. Which customers purchased furniture, and what was the price of each product they purchased? Show the customer name, country,
+product name, and price.
+SELECT customers.customer_name, customers.country, furniture.name, furniture.price
+FROM orders
+JOIN customers
+ON orders.customer_id = customers.customer_id
+JOIN furniture
+ON orders.furniture_id = furniture.id;
