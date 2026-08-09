@@ -1,0 +1,93 @@
+01 - Customer Furniture Purchase Analysis
+
+Analyzed customer-level furniture purchasing behavior by joining customer, order,
+and furniture tables and calculating total units ordered per customer-product combination.
+
+SELECT customers.customer_name, furniture.name,
+COUNT(*) AS product_count
+FROM orders
+JOIN customers
+ON orders.customer_id = customers.customer_id
+JOIN furniture
+ON orders.furniture_id = furniture.id
+GROUP BY customers.customer_name, furniture.name 
+ORDER BY product_count DESC;
+
+02. Business question
+
+How many units of each furniture product did each customer order?
+
+SELECT customers.customer_name, furniture.name,
+SUM(orders.quantity) AS total_quantity_ordered
+FROM orders
+JOIN customers
+ON orders.customer_id = customers.customer_id
+JOIN furniture
+ON orders.furniture_id = furniture.id
+GROUP BY customers.customer_name, furniture.name 
+ORDER BY total_quantity_ordered DESC;
+
+Result
+
+The database contains 500 orders, but the query returned 476 rows.
+
+At first, this looked like 24 orders were missing. So I investigated the discrepancy.
+
+Data-quality check
+SELECT COUNT(*)
+FROM orders
+LEFT JOIN customers
+    ON orders.customer_id = customers.customer_id
+LEFT JOIN furniture
+    ON orders.furniture_id = furniture.id
+WHERE customers.customer_id IS NULL
+   OR furniture.id IS NULL;
+
+Result: 0
+
+This means all 500 orders have valid customer and furniture references.
+
+Why 476 rows?
+
+The query groups by:
+
+GROUP BY customers.customer_name, furniture.name
+
+Therefore, multiple orders involving the same customer and the same product are combined into one row.
+
+For example:
+
+Sofia Berg | Luxury Ottoman | Order 1 → 2 units
+Sofia Berg | Luxury Ottoman | Order 2 → 1 unit
+Sofia Berg | Luxury Ottoman | Order 3 → 3 units
+
+becomes:
+
+Sofia Berg | Luxury Ottoman | 6 units
+
+Therefore:
+
+500 orders → 476 unique customer-product combinations
+
+No orders are actually missing.
+
+Key analytical insight
+
+This exercise demonstrated the difference between order-level data and aggregated customer-product data.
+
+I used:
+
+JOIN to combine three related tables
+SUM() to calculate total units
+GROUP BY to create customer-product combinations
+ORDER BY to rank results
+LEFT JOIN to investigate a potential data-quality issue
+IS NULL to check for missing relationships
+
+Business interpretation
+
+This analysis could help a furniture retailer answer questions such as:
+
+Which customers purchase the most units of particular products?
+Which products are repeatedly purchased by the same customers?
+Which customer-product combinations have the highest demand?
