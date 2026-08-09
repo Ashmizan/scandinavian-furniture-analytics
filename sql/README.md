@@ -48,6 +48,11 @@ GitHub
 
 The analysis explores questions questions such as:
 
+Which customer-product combinations generate the highest unit demand?
+
+500 order records represent 476 unique customer-product combinations because repeated
+customer-product orders are aggregated.
+
 - Which customers have placed orders and what products did they purchase?
 - What furniture categories are customers purchasing?
 - Which countries are represented among the countries?
