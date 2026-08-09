@@ -102,8 +102,8 @@ Business Value
 
 The analysis could help a furniture retailer understand:
 
-Which products have the highest demand
-Which customers repeatedly purchase specific products
-Which categories have higher average prices
+Which products have the highest demand?
+Which customers repeatedly purchase specific products?
+Which categories have higher average prices?
 Customer purchasing patterns
 Product demand across different customer groups and countries
