@@ -84,10 +84,107 @@ ORDER BY to rank results
 LEFT JOIN to investigate a potential data-quality issue
 IS NULL to check for missing relationships
 
-Business interpretation
+1.List all furniture items in the Sofa category priced above 60,000, sorted from most to least expensive.
+SELECT*FROM furniture
+WHERE category = 'Sofa'
+AND price > 60000
+ORDER BY price DESC;
 
-This analysis could help a furniture retailer answer questions such as:
+2.Which customers are from Sweden?
+SELECT*FROM customers
+WHERE country = 'Sweden';
 
-Which customers purchase the most units of particular products?
-Which products are repeatedly purchased by the same customers?
-Which customer-product combinations have the highest demand?
+3.Show all orders where the quantity is more than 2.
+SELECT*FROM orders
+WHERE quantity > 2;
+
+4.What is the total revenue if every order's price × quantity is summed?
+SELECT
+SUM(furniture,price*quantity) AS total_revenue
+FROM orders
+JOIN furniture
+ON orders.furniture_id = furniture.id
+ORDER BY total_revenue DESC;
+
+5.What is the average price of furniture, broken down by category?
+SELECT category,
+AVG(furniture.price) AS average_price
+FROM furniture
+GROUP BY category
+ORDER BY average_price DESC;
+
+6.How many distinct countries are the customers from?
+SELECT COUNT(DISTINCT country)
+AS distinct_countries
+FROM customers;
+
+7.For each country, how many customers are there?
+SELECT country,
+COUNT(*) AS customer_count
+FROM customers
+GROUP BY country
+ORDER BY customer_count DESC;
+
+8.For each furniture category, how many total units have been ordered?
+SELECT category,
+SUM(quantity) AS total_units_ordered
+FROM orders
+JOIN furniture
+ON orders.furniture_id = furniture.id
+GROUP BY category
+ORDER BY total_units_ordered DESC;
+
+9.Which customer has placed the most orders, by number of orders?
+SELECT customers,
+COUNT(*) AS order_count
+FROM orders
+JOIN customers
+ON orders.customer_id = customers.customer_id
+GROUP BY customers
+ORDER BY order_count DESC
+LIMIT 1;
+
+10.What is the total amount spent by each customer, ranked highest to lowest?
+SELECT customers,
+SUM(furniture.price*quantity) AS total_amount_spent
+FROM orders
+JOIN customers
+ON orders.customer_id = customers.customer_id
+JOIN furniture
+ON orders.furniture_id = furniture.id
+GROUP BY customers
+ORDER BY total_amount_spent DESC;
+
+11.Which furniture categories have an average price above 70,000?
+SELECT category,
+       AVG(price) AS average_price
+FROM furniture
+GROUP BY category
+HAVING AVG(price) > 70000
+ORDER BY average_price DESC;
+
+12. Which customers have ordered more than 5 times?
+SELECT customers.customer_id,
+       customers.customer_name,
+	   customers.country,
+       COUNT(*) AS order_count
+FROM orders
+JOIN customers
+ON orders.customer_id = customers.customer_id
+GROUP BY customers.customer_id,
+       customers.customer_name,
+	   customers.country
+HAVING COUNT(*) > 5
+ORDER BY order_count DESC;
+
+13.Which countries have more than 10 customers?
+14.Which furniture category generates the most total revenue?
+15.Show the top 5 customers by total spending, including their country.
+16.For each country, what is the total revenue generated from customers in that country?
+17.Which furniture items have never been ordered?
+18.What is the most frequently ordered furniture item by total quantity, not order count?
+19.Compare total revenue from Sofa vs every other category combined.
+20.Which customer has the highest single order value (price × quantity for one order line)?
+
+
+
