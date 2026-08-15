@@ -317,3 +317,58 @@ ORDER BY price DESC) AS previous_price,
 price-LAG(price) OVER(PARTITION BY category
 ORDER BY price DESC) AS price_difference
 FROM furniture;
+
+13. For every furniture product, show its category, name, price, and the price of the next product within the same category when products are ordered from highest price to lowest price.
+
+SELECT 
+      category,
+	  name,
+	  price,
+LEAD(price) OVER(PARTITION BY category
+ORDER BY price DESC) AS next_price
+FROM furniture;
+
+14. Using furniture, show for every product:
+
+category
+name
+price
+category_avg_price
+price_rank
+
+SELECT
+     category,
+	 name,
+	 price,
+AVG(price) OVER(PARTITION BY category)
+AS category_avg_price,
+DENSE_RANK() OVER(PARTITION BY category
+ORDER BY price DESC)
+AS price_rank
+FROM furniture;
+
+15. Using the furniture table, for every product show:
+
+category
+name
+price
+price_rank
+category_avg_price
+previous_price
+next_price
+
+SELECT
+     category,
+	 name,
+	 price,
+DENSE_RANK() OVER(PARTITION BY category
+ORDER BY price DESC) AS price_rank,
+AVG(price) OVER(PARTITION BY category)
+AS category_avg_price,
+LAG(price) OVER(PARTITION BY category
+ORDER BY price DESC)
+AS previous_price,
+LEAD(price) OVER(PARTITION BY category
+ORDER BY price DESC)
+AS next_price
+FROM furniture;
