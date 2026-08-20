@@ -1,12 +1,3 @@
--- Aggregate Functions
--- This file uses aggregate functions to analyze customers,
--- furniture products, and order activity.
-
-
--- ============================================================
--- BASIC AGGREGATE FUNCTIONS
--- ============================================================
-
 -- 1. How many customers are in the database?
 SELECT COUNT(*) AS total_customers
 FROM customers;
